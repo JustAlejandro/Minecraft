@@ -13,5 +13,105 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Screen">
+      <UniqueIdentifier>{a586a7d3-fd2b-4e5c-9937-61bb0e275696}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Cube">
+      <UniqueIdentifier>{3c979bf9-cc40-4ed6-bae3-be04c0e30a96}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="screen.vert">
+      <Filter>Source Files\Screen</Filter>
+    </None>
+    <None Include="screen.frag">
+      <Filter>Source Files\Screen</Filter>
+    </None>
+    <None Include="cube.vert">
+      <Filter>Source Files\Cube</Filter>
+    </None>
+    <None Include="cube.frag">
+      <Filter>Source Files\Cube</Filter>
+    </None>
+    <None Include="cube.geom">
+      <Filter>Source Files\Cube</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="render_pass.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="shader_uniform.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\utgraphicsutil\debuggl.cc">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\utgraphicsutil\jpegio.cc">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="glSetups.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="geometry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Screen.cpp">
+      <Filter>Source Files\Screen</Filter>
+    </ClCompile>
+    <ClCompile Include="Cube.cpp">
+      <Filter>Source Files\Cube</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="render_pass.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="shader_uniform.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\utgraphicsutil\debuggl.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\utgraphicsutil\image.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\utgraphicsutil\jpegio.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\utgraphicsutil\material.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\utgraphicsutil\portable_gl.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="glSetups.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="geometry.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Screen.h">
+      <Filter>Source Files\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="Cube.h">
+      <Filter>Source Files\Cube</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
