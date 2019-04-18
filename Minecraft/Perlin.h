@@ -43,6 +43,7 @@ public:
 
 	Perlin(vec4 wPos, int width, int height) {
 		seed = vec2(wPos.x, wPos.z);
+		srand(wPos.x * 0.444 + wPos.z * 0.444);
 		this->width = width + 1;
 		this->height = height + 1;
 		for (int i = 0; i < height + 1; i++)

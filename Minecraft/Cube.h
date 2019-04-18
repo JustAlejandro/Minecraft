@@ -25,6 +25,7 @@ public:
 
 	static std::vector<vec3> *cube_location_static;
 	void setLocation();
+	static void setLocation(std::vector<vec3>& v) {cube_location_static = &v;};
 	std::vector<vec3> cube_location;
 	int count = 0;
 	static void setup(MatrixPointers* mat, vec4* lightIn);

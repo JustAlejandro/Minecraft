@@ -45,15 +45,15 @@ void Cubes::toScreen(GLuint & FrameBuffer, MatrixPointers mat, vec4 l, int & wid
 	proj = mat4(*mat.projection);
 	view = mat4(*mat.view);
 	light = vec4(l);
-	setLocation();
 	render->setup();
-	CHECK_GL_ERROR(glDrawElementsInstanced(GL_TRIANGLES, cube_faces.size() * 3, GL_UNSIGNED_INT, 0, count));	
+	CHECK_GL_ERROR(glDrawElementsInstanced(GL_TRIANGLES, cube_faces.size() * 3, GL_UNSIGNED_INT, 0, cube_location_static->size()));	
 }
 
 void Cubes::setLocation()
 {
 	cube_location_static = &cube_location;
 }
+
 
 void Cubes::setup(MatrixPointers* mat, vec4* lightIn)
 {
@@ -69,14 +69,14 @@ void Cubes::setup(MatrixPointers* mat, vec4* lightIn)
 	cube_faces.push_back(glm::uvec3(2, 1, 0));
 	cube_faces.push_back(glm::uvec3(3, 2, 0));
 	//Back
-	cube_faces.push_back(glm::uvec3(5, 6, 7));
-	cube_faces.push_back(glm::uvec3(4, 5, 7));
+	cube_faces.push_back(glm::uvec3(7, 6, 5));
+	cube_faces.push_back(glm::uvec3(7, 5, 4));
 	//Left
 	cube_faces.push_back(glm::uvec3(0, 1, 5));
 	cube_faces.push_back(glm::uvec3(5, 4, 0));
 	//Right?
-	cube_faces.push_back(glm::uvec3(7, 6, 2));
-	cube_faces.push_back(glm::uvec3(2, 3, 7));
+	cube_faces.push_back(glm::uvec3(2, 6, 7));
+	cube_faces.push_back(glm::uvec3(7, 3, 2));
 	//Top?
 	cube_faces.push_back(glm::uvec3(1, 2, 6));
 	cube_faces.push_back(glm::uvec3(6, 5, 1));
@@ -104,7 +104,7 @@ void Cubes::setup(MatrixPointers* mat, vec4* lightIn)
 	auto view_uni = make_uniform("view", view_data);
 
 	std::function<vec4()> light_data = []() { return Cubes::light; };
-	auto light_uni = make_uniform("light_direction", light_data);
+	auto light_uni = make_uniform("light_position", light_data);
 
 	//Setup RenderPass
 	render = new RenderPass(-1, *input,

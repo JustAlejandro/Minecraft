@@ -7,7 +7,7 @@ int reMap(float val, float h, float l, int max, int min) {
 }
 
 // Takes in a 2d map of the chunk to create, as well as it's world position and the max and min values
-Chunk::Chunk(MatrixPointers* mats, vec4* light, vec4 w_pos, int max, int min) : cubes(mats, light), frank(w_pos, 5, 5), half(w_pos, 15, 15), quarter(w_pos, 30,30)
+Chunk::Chunk(MatrixPointers* mats, vec4* light, vec4 w_pos, int max, int min) : frank(w_pos, 5, 5), half(w_pos, 15, 15), quarter(w_pos, 30,30)
 {
 	float big = 1.0f;
 	float small = -1.0f;
@@ -19,12 +19,12 @@ Chunk::Chunk(MatrixPointers* mats, vec4* light, vec4 w_pos, int max, int min) : 
 	int maxBlocks;
 	for (int i = 0; i < height; i++)
 	{
+		blocks[i] = new Cubes(mats, light);
 		for (int j = 0; j < width; j++)
 		{
 			minBlocks = 100000;
 			maxBlocks = -1;
 			getMinMax(map, minBlocks, maxBlocks, i , j, big, small, max, min);
-			blocks[i][j] = new Cubes(mats, light);
 			placeBlocks(minBlocks, maxBlocks, i, j);
 		}
 	}
@@ -35,8 +35,7 @@ Chunk::~Chunk()
 {
 	for (int i = 0; i < seed_height; i++)
 	{
-		for (int j = 0; j < seed_width; j++)
-			delete blocks[i][j];
+		delete blocks[i];
 	}
 }
 
@@ -62,8 +61,7 @@ void Chunk::getMinMax(std::vector<float> map, int & min, int & max, int& x, int&
 void Chunk::placeBlocks(int min, int max, int x, int y) {
 	for (int i = min; i <= max; i++)
 	{
-		(*blocks[x][y]).add(worldPos + vec4((float)x, (float)i, (float)y, 0.0f));
-		cubes.add(worldPos + vec4((float)x, (float)i, (float)y, 0.0f));
+		(*blocks[x]).add(worldPos + vec4((float)x, (float)i, (float)y, 0.0f));
 	}
 }
 
@@ -71,10 +69,9 @@ void Chunk::placeBlocks(int min, int max, int x, int y) {
 void Chunk::toScreen(GLuint & FrameBuffer, MatrixPointers mat, vec4 l, int & width, int & height) {
 	for (unsigned int i = 0; i < seed_height; i++)
 	{
-		for (unsigned int j = 0; j < seed_width; j++)
-		{
-			(*blocks[i][j]).toScreen(FrameBuffer, mat, l, width, height);
-		}
+		//TODO: This is taking all our CPU time with handing off uniforms, so we'll render our cubes a row at a time now
+		Cubes::setLocation(blocks[i]->cube_location);
+		(*blocks[i]).toScreen(FrameBuffer, mat, l, width, height);
 	}
 }
 

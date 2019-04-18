@@ -14,8 +14,7 @@ public:
 	Chunk(MatrixPointers* mats, vec4* light, vec4 w_pos, int max, int min);
 	~Chunk();
 	void toScreen(GLuint & FrameBuffer, MatrixPointers mat, vec4 l, int & width, int & height);
-	Cubes cubes;
-	Cubes* blocks[seed_height][seed_height];
+	Cubes* blocks[seed_height];
 	vec4 worldPos;
 	int width;
 	int height;

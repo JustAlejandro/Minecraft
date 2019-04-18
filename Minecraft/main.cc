@@ -36,18 +36,6 @@ void ErrorCallback(int error, const char* description) {
 	std::cerr << "GLFW Error: " << description << "\n";
 }
 
-bool checkExist(std::vector<Chunk*> c, vec3 pos) {
-	int j;
-	for (unsigned int i = 0; i < c.size(); i++)
-	{
-		vec3 focus = c[i]->worldPos;
-		if (focus.x < pos.x + 1.0 && focus.x > pos.x - 1.0)
-			if (focus.z < pos.z + 1.0 && focus.z > pos.x - 1.0)
-				return true;
-	}
-	return false;
-}
-
 GLFWwindow* init_glefw()
 {
 	if (!glfwInit())
@@ -97,7 +85,7 @@ int main(int argc, char* argv[])
 	//Generates our verts, uv's, and faces for the quad to render to screen
 	Screen screen;
 
-	vec4 light = vec4(0.0f, 10.0f, 0.0f, 1.0f);
+	vec4 light = vec4(0.0f, 1000.0f, 0.0f, 1.0f);
 
 
 	Chunk chunk(mats, &light, vec4(-10.0, 0.0, -25.0, 1.0), 20, 0);
@@ -116,25 +104,9 @@ int main(int argc, char* argv[])
 		gui.updateMatrices();
 		mats = &gui.getMatrixPointers();
 		playerPos = gui.getCenter();
-		vec3 roundedDown = vec3(float((int)playerPos.x / 10) * 10.0f, 0, float((int)playerPos.z / 10) * 10.0f);
-		for (int i = -1; i < 2; i++)
-		{
-			for (int j = -1; j < 2; j++)
-			{
-				if (!checkExist(chunks, vec3(roundedDown.x + i * seed_height, 0.0, roundedDown.z + j * seed_width))) {
-					chunks.push_back(new Chunk(mats, &light, vec4(roundedDown.x + i * seed_height, 0.0, roundedDown.z + j * seed_width, 1.0), 20, 0));
-				}
-			}
-
-		}
 		chunkSetup(window_width, window_height, FrameBuffer);
-		//TODO: sort all the chunks by distance from player and render in order
-		for (unsigned int i = 0; i < chunks.size(); i++)
-		{
-			chunks[i]->toScreen(FrameBuffer, *mats, light, window_width, window_height);
-		}
-		//chunk.toScreen(FrameBuffer, *mats, light, window_width, window_height);
-		//chunk2.toScreen(FrameBuffer, *mats, light, window_width, window_height);
+		world.worldUpdate(playerPos, mats, &light);
+		world.toScreen(FrameBuffer, *mats, light, window_width, window_height);
 		screen.toScreen(mainRenderTex, window_width, window_height);
 		
 		glfwSwapBuffers(window);

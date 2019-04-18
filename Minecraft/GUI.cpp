@@ -10,8 +10,8 @@
 #include <glm/gtx/euler_angles.hpp>
 #define M_PI       3.14159265358979323846   // pi
 
-const float kNear = 0.1f;
-const float kFar = 1000.0f;
+const float kNear = 0.5f;
+const float kFar = 600.0f;
 const float kFov = 45.0f;
 
 namespace {
@@ -135,49 +135,50 @@ MatrixPointers GUI::getMatrixPointers() const
 
 bool GUI::captureWASDUPDOWN(int key, int action)
 {
+	bool toRet = false;
 	if (key == GLFW_KEY_W) {
 		if (fps_mode_)
 			eye_ += zoom_speed_ * look_;
 		else
 			camera_distance_ -= zoom_speed_;
-		return true;
+		toRet = true;
 	}
 	else if (key == GLFW_KEY_S) {
 		if (fps_mode_)
 			eye_ -= zoom_speed_ * look_;
 		else
 			camera_distance_ += zoom_speed_;
-		return true;
+		toRet = true;
 	}
 	else if (key == GLFW_KEY_A) {
 		if (fps_mode_)
 			eye_ += pan_speed_ * tangent_;
 		else
 			center_ += pan_speed_ * tangent_;
-		return true;
+		toRet = true;
 	}
 	else if (key == GLFW_KEY_D) {
 		if (fps_mode_)
 			eye_ -= pan_speed_ * tangent_;
 		else
 			center_ -= pan_speed_ * tangent_;
-		return true;
+		toRet = true;
 	}
 	else if (key == GLFW_KEY_DOWN) {
 		if (fps_mode_)
 			eye_ -= pan_speed_ * up_;
 		else
 			center_ -= pan_speed_ * up_;
-		return true;
+		toRet = true;
 	}
 	else if (key == GLFW_KEY_UP) {
 		if (fps_mode_)
 			eye_ += pan_speed_ * up_;
 		else
 			center_ += pan_speed_ * up_;
-		return true;
+		toRet = true;
 	}
-	return false;
+	return toRet;
 }
 
 

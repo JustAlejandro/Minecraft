@@ -36,6 +36,7 @@ public:
 	const glm::vec3& getCamera() const { return eye_; }
 	const float* getLightPositionPtr() const { return &light_position_[0]; }
 	void readAndSave();
+	glm::vec3 eye_ = glm::vec3(0.0f, 20.1f, camera_distance_);
 private:
 	GLFWwindow* window_;
 
@@ -48,14 +49,13 @@ private:
 	int current_button_ = -1;
 	float last_x_ = 0.0f, last_y_ = 0.0f, current_x_ = 0.0f, current_y_ = 0.0f;
 	float camera_distance_ = 1.0f;
-	float pan_speed_ = 0.1f;
+	float pan_speed_ = 0.4f;
 	float rotation_speed_ = 0.04f;
-	float zoom_speed_ = 0.1f;
+	float zoom_speed_ = 0.4f;
 	float aspect_;
 	float scroll = 0;
 
 
-	glm::vec3 eye_ = glm::vec3(0.0f, 10.1f, camera_distance_);
 	glm::vec3 up_ = glm::vec3(0.0f, 1.0f, 0.0f);
 	glm::vec3 look_ = glm::vec3(0.0f, 0.0f, -1.0f);
 	glm::vec3 tangent_ = glm::cross(look_, up_);
