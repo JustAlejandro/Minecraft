@@ -36,3 +36,12 @@ void glCleanup()
 	glDepthFunc(GL_LESS);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
+
+void chunkSetup(int width, int height, GLuint& FrameBuffer)
+{
+	glBindFramebuffer(GL_FRAMEBUFFER, FrameBuffer);
+	glViewport(0, 0, width, height);
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LESS);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}

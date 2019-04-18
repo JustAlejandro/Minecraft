@@ -157,6 +157,7 @@
     <ClCompile Include="..\lib\utgraphicsutil\debuggl.cc" />
     <ClCompile Include="..\lib\utgraphicsutil\jpegio.cc" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Chunk.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="geometry.cpp" />
     <ClCompile Include="glSetups.cpp" />
@@ -165,6 +166,7 @@
     <ClCompile Include="render_pass.cc" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="shader_uniform.cc" />
+    <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\lib\utgraphicsutil\debuggl.h" />
@@ -173,13 +175,17 @@
     <ClInclude Include="..\lib\utgraphicsutil\material.h" />
     <ClInclude Include="..\lib\utgraphicsutil\portable_gl.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Chunk.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="geometry.h" />
     <ClInclude Include="glSetups.h" />
     <ClInclude Include="GUI.h" />
+    <ClInclude Include="main.h" />
+    <ClInclude Include="Perlin.h" />
     <ClInclude Include="render_pass.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="shader_uniform.h" />
+    <ClInclude Include="World.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

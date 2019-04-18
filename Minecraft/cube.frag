@@ -5,7 +5,7 @@ out vec4 fragment_color;
 void main()
 {
 	vec4 color = vec4(0.0, 0.0, 0.0, 1.0);
-	float dot_nl = dot(normalize(light_direction), -1.0 * normalize(normal));
+	float dot_nl = dot(normalize(light_direction), normalize(normal));
 	dot_nl = clamp(dot_nl, 0.0, 1.0);
 
 	if (normal.x > .666){
@@ -28,6 +28,6 @@ void main()
 	}
 	
 	// Super Simple Shading
-	fragment_color = color;// * clamp(dot_nl * color, 0.0, 1.0);
+	fragment_color = color * clamp(dot_nl * color, 0.0, 1.0);
 }
 )zzz"

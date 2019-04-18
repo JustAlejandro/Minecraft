@@ -44,24 +44,25 @@ private:
 	int preview_height_;
 
 	bool drag_state_ = false;
-	bool fps_mode_ = false;
+	bool fps_mode_ = true;
 	int current_button_ = -1;
 	float last_x_ = 0.0f, last_y_ = 0.0f, current_x_ = 0.0f, current_y_ = 0.0f;
-	float camera_distance_ = 0.5;
+	float camera_distance_ = 1.0f;
 	float pan_speed_ = 0.1f;
-	float rotation_speed_ = 0.02f;
+	float rotation_speed_ = 0.04f;
 	float zoom_speed_ = 0.1f;
 	float aspect_;
 	float scroll = 0;
 
 
-	glm::vec3 eye_ = glm::vec3(0.0f, 0.1f, camera_distance_);
+	glm::vec3 eye_ = glm::vec3(0.0f, 10.1f, camera_distance_);
 	glm::vec3 up_ = glm::vec3(0.0f, 1.0f, 0.0f);
 	glm::vec3 look_ = glm::vec3(0.0f, 0.0f, -1.0f);
 	glm::vec3 tangent_ = glm::cross(look_, up_);
 	glm::vec3 center_ = eye_ - camera_distance_ * look_;
 	glm::mat3 orientation_ = glm::mat3(tangent_, up_, look_);
 	glm::vec4 light_position_;
+	glm::vec3 axis = glm::vec3(3.14, 0.0,0.0);
 
 	glm::mat4 view_matrix_ = glm::lookAt(eye_, center_, up_);
 	glm::mat4 projection_matrix_;

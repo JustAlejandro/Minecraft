@@ -6,6 +6,8 @@ uniform mat4 view;
 in vec4 vs_light_direction[];
 flat out vec4 normal;
 out vec4 light_direction;
+out mat4 proj;
+out mat4 v;
 void main()
 {
 	int n = 0;

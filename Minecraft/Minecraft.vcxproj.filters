@@ -16,8 +16,17 @@
     <Filter Include="Source Files\Screen">
       <UniqueIdentifier>{a586a7d3-fd2b-4e5c-9937-61bb0e275696}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Cube">
+    <Filter Include="Source Files\Chunk">
+      <UniqueIdentifier>{b988cee5-484b-4acd-a325-e3a6957f1765}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Perlin">
+      <UniqueIdentifier>{dbb58b80-2a3c-44be-9a46-a4927cd3cac8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Chunk\Cube">
       <UniqueIdentifier>{3c979bf9-cc40-4ed6-bae3-be04c0e30a96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\World">
+      <UniqueIdentifier>{2cfb5b6b-a321-470c-a7fa-57d75852b73e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -29,13 +38,13 @@
       <Filter>Source Files\Screen</Filter>
     </None>
     <None Include="cube.vert">
-      <Filter>Source Files\Cube</Filter>
+      <Filter>Source Files\Chunk\Cube</Filter>
     </None>
     <None Include="cube.frag">
-      <Filter>Source Files\Cube</Filter>
+      <Filter>Source Files\Chunk\Cube</Filter>
     </None>
     <None Include="cube.geom">
-      <Filter>Source Files\Cube</Filter>
+      <Filter>Source Files\Chunk\Cube</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -64,13 +73,19 @@
       <Filter>Source Files\Screen</Filter>
     </ClCompile>
     <ClCompile Include="Cube.cpp">
-      <Filter>Source Files\Cube</Filter>
+      <Filter>Source Files\Chunk\Cube</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GUI.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Chunk.cpp">
+      <Filter>Source Files\Chunk</Filter>
+    </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>Source Files\World</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -105,13 +120,25 @@
       <Filter>Source Files\Screen</Filter>
     </ClInclude>
     <ClInclude Include="Cube.h">
-      <Filter>Source Files\Cube</Filter>
+      <Filter>Source Files\Chunk\Cube</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="GUI.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Chunk.h">
+      <Filter>Source Files\Chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="Perlin.h">
+      <Filter>Source Files\Perlin</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="World.h">
+      <Filter>Source Files\World</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

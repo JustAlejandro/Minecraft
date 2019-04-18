@@ -7,6 +7,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/transform.hpp>
+#include <glm/gtx/euler_angles.hpp>
 #define M_PI       3.14159265358979323846   // pi
 
 const float kNear = 0.1f;
@@ -22,6 +23,7 @@ namespace {
 GUI::GUI(GLFWwindow* window, int view_width, int view_height)
 	:window_(window)
 {
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetWindowUserPointer(window_, this);
 	glfwSetKeyCallback(window_, KeyCallback);
 	glfwSetCursorPosCallback(window_, MousePosCallback);
@@ -58,9 +60,6 @@ void GUI::keyCallback(int key, int scancode, int action, int mods)
 
 	if (mods == 0 && captureWASDUPDOWN(key, action))
 		return;
-	else if (key == GLFW_KEY_C && action != GLFW_RELEASE) {
-		fps_mode_ = !fps_mode_;
-	}
 }
 
 void GUI::readAndSave() {
@@ -77,28 +76,19 @@ void GUI::mousePosCallback(double mouse_x, double mouse_y)
 	current_y_ = window_height_ - mouse_y;
 	float delta_x = current_x_ - last_x_;
 	float delta_y = current_y_ - last_y_;
-	if (sqrt(delta_x * delta_x + delta_y * delta_y) < 1e-15)
-		return;
-	if (mouse_x > view_width_)
-		return;
 	glm::vec3 mouse_direction = glm::normalize(glm::vec3(delta_x, delta_y, 0.0f));
 	glm::vec2 mouse_start = glm::vec2(last_x_, last_y_);
 	glm::vec2 mouse_end = glm::vec2(current_x_, current_y_);
 	glm::uvec4 viewport = glm::uvec4(0, 0, view_width_, view_height_);
 
-	bool drag_camera = drag_state_ && current_button_ == GLFW_MOUSE_BUTTON_RIGHT;
 
-	if (drag_camera) {
-		glm::vec3 axis = glm::normalize(
-			orientation_ *
-			glm::vec3(mouse_direction.y, -mouse_direction.x, 0.0f)
-		);
-		orientation_ =
-			glm::mat3(glm::rotate(rotation_speed_, axis) * glm::mat4(orientation_));
-		tangent_ = glm::column(orientation_, 0);
-		up_ = glm::column(orientation_, 1);
-		look_ = glm::column(orientation_, 2);
-	}
+	axis = glm::vec3(-mouse_direction.x * rotation_speed_ + axis.x, -mouse_direction.y * rotation_speed_ + axis.y, 0.0f);
+	axis.y = std::max(axis.y, -3.14f / 2.75f);
+	axis.y = std::min(axis.y, 3.14f / 2.75f);
+	orientation_ = glm::mat3(glm::eulerAngleYXZ(axis.x, axis.y, axis.z));
+	up_ = glm::column(orientation_, 1);
+	look_ = glm::column(orientation_, 2);
+	tangent_ = glm::column(orientation_, 0);
 }
 
 void GUI::mouseButtonCallback(int button, int action, int mods)
@@ -161,16 +151,16 @@ bool GUI::captureWASDUPDOWN(int key, int action)
 	}
 	else if (key == GLFW_KEY_A) {
 		if (fps_mode_)
-			eye_ -= pan_speed_ * tangent_;
+			eye_ += pan_speed_ * tangent_;
 		else
-			center_ -= pan_speed_ * tangent_;
+			center_ += pan_speed_ * tangent_;
 		return true;
 	}
 	else if (key == GLFW_KEY_D) {
 		if (fps_mode_)
-			eye_ += pan_speed_ * tangent_;
+			eye_ -= pan_speed_ * tangent_;
 		else
-			center_ += pan_speed_ * tangent_;
+			center_ -= pan_speed_ * tangent_;
 		return true;
 	}
 	else if (key == GLFW_KEY_DOWN) {

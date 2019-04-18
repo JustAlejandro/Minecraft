@@ -5,7 +5,8 @@
 #include "geometry.h"
 #include "Screen.h"
 #include "GUI.h"
-#include "Cube.h"
+#include "Chunk.h"
+#include "World.h"
 
 #include <memory>
 #include <algorithm>
@@ -15,23 +16,36 @@
 #include <sstream>
 #include <vector>
 #include <stdio.h>
+#include <math.h>
 
 #include <glm/gtx/component_wise.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 #include <glm/gtx/string_cast.hpp>
 #include <glm/gtx/io.hpp>
 #include <debuggl.h>
+#include "main.h"
 using namespace glm;
 
 int window_width = 1280;
 int window_height = 720;
 const std::string window_title = "Minecraft";
 
-
 // FIXME: Add more shaders here.
 
 void ErrorCallback(int error, const char* description) {
 	std::cerr << "GLFW Error: " << description << "\n";
+}
+
+bool checkExist(std::vector<Chunk*> c, vec3 pos) {
+	int j;
+	for (unsigned int i = 0; i < c.size(); i++)
+	{
+		vec3 focus = c[i]->worldPos;
+		if (focus.x < pos.x + 1.0 && focus.x > pos.x - 1.0)
+			if (focus.z < pos.z + 1.0 && focus.z > pos.x - 1.0)
+				return true;
+	}
+	return false;
 }
 
 GLFWwindow* init_glefw()
@@ -62,11 +76,12 @@ GLFWwindow* init_glefw()
 
 int main(int argc, char* argv[])
 {
+	srand(100);
 	GLFWwindow *window = init_glefw();
 	GUI gui(window, window_width, window_height);
 
 	gui.updateMatrices();
-	MatrixPointers mats = gui.getMatrixPointers();
+	MatrixPointers* mats = &gui.getMatrixPointers();
 
 	//PLAN: render each view one at a time to the same texture, displaying each as we go
 
@@ -84,8 +99,12 @@ int main(int argc, char* argv[])
 
 	vec4 light = vec4(0.0f, 10.0f, 0.0f, 1.0f);
 
-	Cubes cubes(mats.view, mats.projection, &light);
-	cubes.add(vec4(0.0, 0.0, -1.0, 1.0));
+
+	Chunk chunk(mats, &light, vec4(-10.0, 0.0, -25.0, 1.0), 20, 0);
+	Chunk chunk2(mats, &light, vec4(-10.0, -20.0, -75.0, 1.0), 20, 0);
+	vec3 playerPos = gui.getCenter();
+	World world(mats, &light);
+	std::vector<Chunk*> chunks;
 
 	//Setup the quadPassThrough
 
@@ -95,15 +114,31 @@ int main(int argc, char* argv[])
 		glfwGetFramebufferSize(window, &window_width, &window_height);
 		glViewport(0, 0, window_width, window_height);
 		gui.updateMatrices();
-		mats = gui.getMatrixPointers();
+		mats = &gui.getMatrixPointers();
+		playerPos = gui.getCenter();
+		vec3 roundedDown = vec3(float((int)playerPos.x / 10) * 10.0f, 0, float((int)playerPos.z / 10) * 10.0f);
+		for (int i = -1; i < 2; i++)
+		{
+			for (int j = -1; j < 2; j++)
+			{
+				if (!checkExist(chunks, vec3(roundedDown.x + i * seed_height, 0.0, roundedDown.z + j * seed_width))) {
+					chunks.push_back(new Chunk(mats, &light, vec4(roundedDown.x + i * seed_height, 0.0, roundedDown.z + j * seed_width, 1.0), 20, 0));
+				}
+			}
 
-		cubes.toScreen(FrameBuffer, mats, light, window_width, window_height);
-
+		}
+		chunkSetup(window_width, window_height, FrameBuffer);
+		//TODO: sort all the chunks by distance from player and render in order
+		for (unsigned int i = 0; i < chunks.size(); i++)
+		{
+			chunks[i]->toScreen(FrameBuffer, *mats, light, window_width, window_height);
+		}
+		//chunk.toScreen(FrameBuffer, *mats, light, window_width, window_height);
+		//chunk2.toScreen(FrameBuffer, *mats, light, window_width, window_height);
 		screen.toScreen(mainRenderTex, window_width, window_height);
 		
 		glfwSwapBuffers(window);
 		glfwPollEvents();
-		std::cout << gui.getCamera() << std::endl;
 	}
 
 	glfwDestroyWindow(window);

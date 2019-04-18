@@ -11,7 +11,7 @@ void frameBufferSetup(GLuint& FrameBuffer, GLuint& mainRenderTex, GLuint& depthr
 
 void glCleanup();
 
-
+void chunkSetup(int width, int height, GLuint& FrameBuffer);
 
 
 #endif
