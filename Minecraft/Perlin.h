@@ -14,7 +14,7 @@ public:
 
 	std::vector<float> end;
 
-	//Will take in world position as the seed
+	//Will take in world position as the seed for the continuity
 	vec2 seed;
 
 	int width, height;
@@ -27,17 +27,17 @@ public:
 		float w0 = x - float(x0);
 		float w1 = y - float(y0);
 
-		float v0, v1, inter0, inter1, toRet;
+		float v00, v01, v10, v11, inter0, inter1, toRet;
 
-		v0 = sampleGradient(x0, y0, x, y);
-		v1 = sampleGradient(x1, y0, x, y);
-		inter0 = lerp(v0, v1, w0);
+		v00 = sampleGradient(x0, y0, x, y);
+		v01 = sampleGradient(x1, y0, x, y);
+		v10 = sampleGradient(x0, y1, x, y);
+		v11 = sampleGradient(x1, y1, x, y);
 
-		v0 = sampleGradient(x0, y1, x, y);
-		v1 = sampleGradient(x1, y1, x, y);
-		inter1 = lerp(v0, v1, w0);
+		inter0 = blend(v00, v01, w0);
+		inter1 = blend(v10, v11, w0);
 
-		toRet = lerp(inter0, inter1, w1);
+		toRet = blend(inter0, inter1, w1);
 		return toRet;
 	}
 
@@ -87,7 +87,7 @@ private:
 		v.push_back(normalize(vec2((double)rand() / (RAND_MAX), (double)rand() / (RAND_MAX))));
 	}
 	
-	float lerp(float x, float y, float w) {
+	float blend(float x, float y, float w) {
 		return x * (1.0 - w) + y * w;
 	}
 

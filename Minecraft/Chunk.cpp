@@ -28,10 +28,9 @@ Chunk::Chunk(MatrixPointers* mats, vec4* light, vec4 w_pos, int max, int min) : 
 			placeBlocks(minBlocks, maxBlocks, i, j);
 		}
 	}
-	int height = seed_width;
-	int width = seed_height;
-	Perlin texture(w_pos, 10, 10, width, height);
-	std::cout << texture.end[0];
+	CHECK_GL_ERROR(glGenTextures(1, &tex));
+	CHECK_GL_ERROR(glBindTexture(GL_TEXTURE_2D, tex));
+	CHECK_GL_ERROR(glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32F, seed_width, seed_height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, half.end.data()));
 }
 
 Chunk::~Chunk()
@@ -70,6 +69,7 @@ void Chunk::placeBlocks(int min, int max, int x, int y) {
 
 
 void Chunk::toScreen(GLuint & FrameBuffer, MatrixPointers mat, vec4 l, int & width, int & height) {
+	glBindTexture(GL_TEXTURE_2D, tex);
 	for (unsigned int i = 0; i < seed_height; i++)
 	{
 		//TODO: This is taking all our CPU time with handing off uniforms, so we'll render our cubes a row at a time now

@@ -1,0 +1,2 @@
+Renderer: GeForce RTX 2080 Ti/PCIe/SSE2
+OpenGL version supported:4.1.0 NVIDIA 419.35

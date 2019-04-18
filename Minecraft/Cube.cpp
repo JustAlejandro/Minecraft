@@ -58,13 +58,21 @@ void Cubes::setLocation()
 void Cubes::setup(MatrixPointers* mat, vec4* lightIn)
 {
 	cube_vert.push_back(glm::vec4(0, 0, 0, 1.0));//BL 0
+	cube_uv.push_back(glm::vec2(0.0, 0.0));
 	cube_vert.push_back(glm::vec4(0, 1, 0, 1.0));//TL 1
+	cube_uv.push_back(glm::vec2(0.0, 1.0));
 	cube_vert.push_back(glm::vec4(1, 1, 0, 1.0));//TL 2
+	cube_uv.push_back(glm::vec2(1.0, 1.0));
 	cube_vert.push_back(glm::vec4(1, 0, 0, 1.0));//TR 3
+	cube_uv.push_back(glm::vec2(1.0, 0.0));
 	cube_vert.push_back(glm::vec4(0, 0, 1, 1.0));//BL 4
+	cube_uv.push_back(glm::vec2(0.0, 1.0));
 	cube_vert.push_back(glm::vec4(0, 1, 1, 1.0));//TL 5
+	cube_uv.push_back(glm::vec2(1.0, 1.0));
 	cube_vert.push_back(glm::vec4(1, 1, 1, 1.0));//TL 6 
+	cube_uv.push_back(glm::vec2(0.0, 1.0));
 	cube_vert.push_back(glm::vec4(1, 0, 1, 1.0));//TR 7
+	cube_uv.push_back(glm::vec2(1.0, 0.0));
 	//Front?
 	cube_faces.push_back(glm::uvec3(2, 1, 0));
 	cube_faces.push_back(glm::uvec3(3, 2, 0));
