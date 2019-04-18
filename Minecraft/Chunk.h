@@ -19,6 +19,7 @@ public:
 	int width;
 	int height;
 private:
+	GLuint tex;
 	Perlin frank;
 	Perlin half;
 	Perlin quarter;

@@ -31,7 +31,7 @@ public:
 	void cull(vec3 pos) {
 		for (unsigned int i = 0; i < chunks.size(); i++)
 		{
-			if (distance(pos, vec3(chunks[i]->worldPos)) > 150.0)
+			if (distance(pos, vec3(chunks[i]->worldPos)) > 170.0)
 			{
 				chunks.erase(chunks.begin() + i);
 				return;

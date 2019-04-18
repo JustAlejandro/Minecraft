@@ -166,7 +166,6 @@
     <ClCompile Include="render_pass.cc" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="shader_uniform.cc" />
-    <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\lib\utgraphicsutil\debuggl.h" />

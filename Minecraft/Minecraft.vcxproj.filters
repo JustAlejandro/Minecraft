@@ -84,9 +84,6 @@
     <ClCompile Include="Chunk.cpp">
       <Filter>Source Files\Chunk</Filter>
     </ClCompile>
-    <ClCompile Include="World.cpp">
-      <Filter>Source Files\World</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="render_pass.h">

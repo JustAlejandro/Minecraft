@@ -7,7 +7,7 @@ int reMap(float val, float h, float l, int max, int min) {
 }
 
 // Takes in a 2d map of the chunk to create, as well as it's world position and the max and min values
-Chunk::Chunk(MatrixPointers* mats, vec4* light, vec4 w_pos, int max, int min) : frank(w_pos, 5, 5), half(w_pos, 15, 15), quarter(w_pos, 30,30)
+Chunk::Chunk(MatrixPointers* mats, vec4* light, vec4 w_pos, int max, int min) : frank(w_pos, 5, 5), half(w_pos, 10, 10), quarter(w_pos, 15,15)
 {
 	float big = 1.0f;
 	float small = -1.0f;
@@ -28,7 +28,10 @@ Chunk::Chunk(MatrixPointers* mats, vec4* light, vec4 w_pos, int max, int min) : 
 			placeBlocks(minBlocks, maxBlocks, i, j);
 		}
 	}
-
+	int height = seed_width;
+	int width = seed_height;
+	Perlin texture(w_pos, 10, 10, width, height);
+	std::cout << texture.end[0];
 }
 
 Chunk::~Chunk()
@@ -80,7 +83,7 @@ void Chunk::setupMap() {
 	{
 		for (int j = 0; j < height; j++)
 		{
-			map.push_back(1.0 / 2.0 * frank.end[i * seed_width + j] +1.0 / 4.0 * half.end[i * seed_width + j] + 1.0 / 8.0 * quarter.end[i * seed_width + j]);
+			map.push_back(1.0 / 2.0 * frank.end[i * seed_width + j] + 1.0 / 6.0 * half.end[i * seed_width + j] + 1.0 / 12.0 * quarter.end[i * seed_width + j]);
 		}
 	}
 }

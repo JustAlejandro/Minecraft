@@ -41,7 +41,9 @@ public:
 		return toRet;
 	}
 
-	Perlin(vec4 wPos, int width, int height) {
+	Perlin(vec4 wPos, int width, int height, int fullWidth = 0, int fullHeight = 0) {
+		if (fullHeight == 0) fullHeight = seed_height;
+		if (fullWidth == 0) fullWidth = seed_width;
 		seed = vec2(wPos.x, wPos.z);
 		srand(wPos.x * 0.444 + wPos.z * 0.444);
 		this->width = width + 1;
@@ -50,18 +52,33 @@ public:
 		{
 			for (int j = 0; j < width + 1; j++)
 			{
-				
+				if (i == 0 || j == 0 || i == height || j == width)
+				{
+					float x = wPos.x + (float)j / width * fullWidth;
+					float y = wPos.z + (float)i / height * fullHeight;
+					perl.push_back(normalize(vec2(sin(abs(x + 0.5) * 0.8144), cos(abs(y + 0.5) * 0.3456))));
+				}
 				{
 					addto(perl);
 				}
 			}
 		}
-
-		for (int i = 0; i < seed_height; i++)
-		{
-			for (int j = 0; j < seed_width; j++)
+		if ((int)wPos.x % 100 == 0)
+			for (int i = 0; i < fullHeight; i++)
 			{
-				end.push_back(4.0f * perlin((float)i / (float)seed_height * (float)width, (float)j / (float)seed_width * (float)height));
+				for (int j = 0; j < fullWidth; j++)
+				{
+					end.push_back(4.0f * perlin((float)i / (float)(fullHeight) * (float)width, (float)j / (float)(fullWidth) * (float)height));
+				}
+			}
+		else
+		{
+			for (int i = fullHeight; i > 0; i--)
+			{
+				for (int j = 0; j < fullWidth; j++)
+				{
+					end.push_back(4.0f * perlin((float)i / (float)(fullHeight) * (float)width, (float)j / (float)(fullWidth) * (float)height));
+				}
 			}
 		}
 	}
@@ -76,7 +93,7 @@ private:
 
 	float sampleGradient(int x, int y, float interX, float interY) {
 		vec2 big = vec2(interX - float(x), interY - float(y));
-		return dot(big, perl[y * width + x]);
+		return dot(big, perl[y+ x * width]);
 	}
 };
 

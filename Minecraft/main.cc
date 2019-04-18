@@ -86,13 +86,8 @@ int main(int argc, char* argv[])
 	Screen screen;
 
 	vec4 light = vec4(0.0f, 1000.0f, 0.0f, 1.0f);
-
-
-	Chunk chunk(mats, &light, vec4(-10.0, 0.0, -25.0, 1.0), 20, 0);
-	Chunk chunk2(mats, &light, vec4(-10.0, -20.0, -75.0, 1.0), 20, 0);
 	vec3 playerPos = gui.getCenter();
 	World world(mats, &light);
-	std::vector<Chunk*> chunks;
 
 	//Setup the quadPassThrough
 
