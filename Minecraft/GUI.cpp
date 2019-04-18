@@ -41,6 +41,10 @@ GUI::GUI(GLFWwindow* window, int view_width, int view_height)
 	}
 	float aspect_ = static_cast<float>(view_width_) / view_height_;
 	projection_matrix_ = glm::perspective((float)(kFov * (M_PI / 180.0f)), aspect_, kNear, kFar);
+	orientation_ = glm::mat3(glm::eulerAngleYXZ(axis.x, axis.y, axis.z));
+	up_ = glm::column(orientation_, 1);
+	look_ = glm::column(orientation_, 2);
+	tangent_ = glm::column(orientation_, 0);
 }
 
 GUI::~GUI()
@@ -57,6 +61,32 @@ void GUI::keyCallback(int key, int scancode, int action, int mods)
 		glfwSetWindowShouldClose(window_, GL_TRUE);
 		return;
 	}
+	else if (key == GLFW_KEY_SPACE) {
+		jumping = true;
+	}if (key == GLFW_KEY_W) {
+		if (fps_mode_)
+			eye_ += zoom_speed_ * look_;
+		else
+			camera_distance_ -= zoom_speed_;
+	}
+	else if (key == GLFW_KEY_S) {
+		if (fps_mode_)
+			eye_ -= zoom_speed_ * look_;
+		else
+			camera_distance_ += zoom_speed_;
+	}
+	else if (key == GLFW_KEY_A) {
+		if (fps_mode_)
+			eye_ += pan_speed_ * tangent_;
+		else
+			center_ += pan_speed_ * tangent_;
+	}
+	else if (key == GLFW_KEY_D) {
+		if (fps_mode_)
+			eye_ -= pan_speed_ * tangent_;
+		else
+			center_ -= pan_speed_ * tangent_;
+	}
 
 	if (mods == 0 && captureWASDUPDOWN(key, action))
 		return;
@@ -66,6 +96,13 @@ void GUI::readAndSave() {
 	unsigned char *frame = (unsigned char*)malloc(3 * window_height_ * window_width_);
 	glReadPixels(0, 0, window_width_, window_height_, GL_RGB, GL_UNSIGNED_BYTE, frame);
 	SaveJPEG("beep.jpg", window_width_, window_height_, frame);
+}
+
+bool GUI::jump()
+{
+	bool toRet = jumping;
+	jumping = false;
+	return toRet;
 }
 
 void GUI::mousePosCallback(double mouse_x, double mouse_y)
@@ -136,35 +173,8 @@ MatrixPointers GUI::getMatrixPointers() const
 bool GUI::captureWASDUPDOWN(int key, int action)
 {
 	bool toRet = false;
-	if (key == GLFW_KEY_W) {
-		if (fps_mode_)
-			eye_ += zoom_speed_ * look_;
-		else
-			camera_distance_ -= zoom_speed_;
-		toRet = true;
-	}
-	else if (key == GLFW_KEY_S) {
-		if (fps_mode_)
-			eye_ -= zoom_speed_ * look_;
-		else
-			camera_distance_ += zoom_speed_;
-		toRet = true;
-	}
-	else if (key == GLFW_KEY_A) {
-		if (fps_mode_)
-			eye_ += pan_speed_ * tangent_;
-		else
-			center_ += pan_speed_ * tangent_;
-		toRet = true;
-	}
-	else if (key == GLFW_KEY_D) {
-		if (fps_mode_)
-			eye_ -= pan_speed_ * tangent_;
-		else
-			center_ -= pan_speed_ * tangent_;
-		toRet = true;
-	}
-	else if (key == GLFW_KEY_DOWN) {
+	
+	if (key == GLFW_KEY_DOWN) {
 		if (fps_mode_)
 			eye_ -= pan_speed_ * up_;
 		else

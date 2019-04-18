@@ -9,10 +9,42 @@
 class World
 {
 public:
+	//Rate of fall
+	float grav = -0.2;
+	bool canJump = true;
+	int jumpFrames = 0;
+
 	World(MatrixPointers* mat, vec4* lightIn) {
 		startUp(mat, lightIn);
 	}
 
+	void checkPlayer(vec3& p, bool jump) {
+		if (jump && canJump)
+		{
+			canJump = false;
+			p.y = p.y - grav;
+			jumpFrames = 12;
+		}
+		else
+		{
+			if (jumpFrames != 0)
+			{
+				jumpFrames--;
+				p.y = p.y - grav;
+			}
+			else
+			{
+				p.y = p.y + grav;
+			}
+		}
+		if (p.y < 10.0)
+		{
+			canJump = true;
+			p.y = 10.0;
+		}
+		//checkCollision(p);
+
+	}
 	bool checkExist(std::vector<Chunk*>& c, vec3 pos) {
 		int j;
 		for (unsigned int i = 0; i < c.size(); i++)
@@ -46,7 +78,7 @@ public:
 			for (int j = -2; j <= 1; j++)
 			{
 				if (!checkExist(chunks, vec3(roundedDown.x + i * seed_height, 0.0, roundedDown.z + j * seed_width))) {
-					chunks.push_back(new Chunk(mats, light, vec4(roundedDown.x + i * seed_height, 0.0, roundedDown.z + j * seed_width, 1.0), 15, 0));
+					chunks.push_back(new Chunk(mats, light, vec4(roundedDown.x + i * seed_height, 0.0, roundedDown.z + j * seed_width, 1.0), 12, 0));
 				}
 			}
 

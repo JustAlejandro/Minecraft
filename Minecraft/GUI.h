@@ -37,6 +37,7 @@ public:
 	const float* getLightPositionPtr() const { return &light_position_[0]; }
 	void readAndSave();
 	glm::vec3 eye_ = glm::vec3(0.0f, 20.1f, camera_distance_);
+	bool jump();
 private:
 	GLFWwindow* window_;
 
@@ -46,6 +47,7 @@ private:
 
 	bool drag_state_ = false;
 	bool fps_mode_ = true;
+	bool jumping = false;
 	int current_button_ = -1;
 	float last_x_ = 0.0f, last_y_ = 0.0f, current_x_ = 0.0f, current_y_ = 0.0f;
 	float camera_distance_ = 1.0f;

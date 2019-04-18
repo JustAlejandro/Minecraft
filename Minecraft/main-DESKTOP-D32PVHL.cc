@@ -5,8 +5,8 @@
 #include "geometry.h"
 #include "Screen.h"
 #include "GUI.h"
+#include "Cube.h"
 #include "Chunk.h"
-#include "World.h"
 
 #include <memory>
 #include <algorithm>
@@ -23,7 +23,6 @@
 #include <glm/gtx/string_cast.hpp>
 #include <glm/gtx/io.hpp>
 #include <debuggl.h>
-#include "main.h"
 using namespace glm;
 
 int window_width = 1280;
@@ -64,7 +63,6 @@ GLFWwindow* init_glefw()
 
 int main(int argc, char* argv[])
 {
-	srand(100);
 	GLFWwindow *window = init_glefw();
 	GUI gui(window, window_width, window_height);
 
@@ -85,9 +83,16 @@ int main(int argc, char* argv[])
 	//Generates our verts, uv's, and faces for the quad to render to screen
 	Screen screen;
 
-	vec4 light = vec4(0.0f, 1000.0f, 0.0f, 1.0f);
-	vec3 playerPos = gui.getCenter();
-	World world(mats, &light);
+	vec4 light = vec4(0.0f, 10.0f, 0.0f, 1.0f);
+	float sinu[seed_width][seed_width];
+	for (int i = 0; i < seed_width; i++)
+	{
+		for (int j = 0; j < seed_width; j++)
+		{
+			sinu[i][j] = sin((float)i / 4.0 + (float)j / 2.0f) + 1.0f;
+		}
+	}
+	Chunk chunk(mats, &light, sinu, vec4(-5.0, -5.0, -15.0, 1.0), 5, 0, 2.0f, 0.0f);
 
 	//Setup the quadPassThrough
 
@@ -96,18 +101,16 @@ int main(int argc, char* argv[])
 		// Setup some basic window stuff.
 		glfwGetFramebufferSize(window, &window_width, &window_height);
 		glViewport(0, 0, window_width, window_height);
-		playerPos = gui.getCenter();
-		bool jump = gui.jump();
-		world.checkPlayer(gui.eye_, jump);
-
 		gui.updateMatrices();
 		mats = &gui.getMatrixPointers();
-		chunkSetup(window_width, window_height, FrameBuffer);
-		world.worldUpdate(playerPos, mats, &light);
-		world.toScreen(FrameBuffer, *mats, light, window_width, window_height);
+
+		chunk.cubes.toScreen(FrameBuffer, *mats, light, window_width, window_height);
+
 		screen.toScreen(mainRenderTex, window_width, window_height);
+		
 		glfwSwapBuffers(window);
 		glfwPollEvents();
+		std::cout << gui.getCamera() << std::endl;
 	}
 
 	glfwDestroyWindow(window);

@@ -6,8 +6,10 @@ uniform mat4 view;
 in vec4 vs_light_direction[];
 flat out vec4 normal;
 out vec4 light_direction;
-out mat4 proj;
-out mat4 v;
+in vec4 world[];
+out vec4 worldCoord;
+in vec2 tex_coord[];
+out vec2 tex_C;
 void main()
 {
 	int n = 0;
@@ -18,6 +20,8 @@ void main()
 	normal = vec4(normalize(cross(c1.xyz - c2.xyz, c0.xyz - c2.xyz)),0.0);
 
 	for (n = 0; n < gl_in.length(); n++) {
+		worldCoord = world[n];
+		tex_C = tex_coord[n];
 		gl_Position = projection * view * gl_in[n].gl_Position;
 		light_direction = vs_light_direction[n];
 		EmitVertex();

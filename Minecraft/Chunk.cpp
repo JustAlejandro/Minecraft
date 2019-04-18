@@ -30,7 +30,9 @@ Chunk::Chunk(MatrixPointers* mats, vec4* light, vec4 w_pos, int max, int min) : 
 	}
 	CHECK_GL_ERROR(glGenTextures(1, &tex));
 	CHECK_GL_ERROR(glBindTexture(GL_TEXTURE_2D, tex));
-	CHECK_GL_ERROR(glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32F, seed_width, seed_height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, half.end.data()));
+	CHECK_GL_ERROR(glTexImage2D(GL_TEXTURE_2D, 0, GL_R32F, seed_width, seed_height, 0, GL_RED, GL_FLOAT, half.end.data()));
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 }
 
 Chunk::~Chunk()
@@ -83,7 +85,7 @@ void Chunk::setupMap() {
 	{
 		for (int j = 0; j < height; j++)
 		{
-			map.push_back(1.0 / 2.0 * frank.end[i * seed_width + j] + 1.0 / 6.0 * half.end[i * seed_width + j] + 1.0 / 12.0 * quarter.end[i * seed_width + j]);
+			map.push_back(1.0 / 2.0 * frank.end[i * seed_width + j] + 1.0 / 8.0 * half.end[i * seed_width + j] + 1.0 / 14.0 * quarter.end[i * seed_width + j]);
 		}
 	}
 }
