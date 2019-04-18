@@ -51,9 +51,9 @@ private:
 	int current_button_ = -1;
 	float last_x_ = 0.0f, last_y_ = 0.0f, current_x_ = 0.0f, current_y_ = 0.0f;
 	float camera_distance_ = 1.0f;
-	float pan_speed_ = 0.4f;
+	float pan_speed_ = 0.3f;
 	float rotation_speed_ = 0.04f;
-	float zoom_speed_ = 0.4f;
+	float zoom_speed_ = 0.3f;
 	float aspect_;
 	float scroll = 0;
 

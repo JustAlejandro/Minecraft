@@ -10,7 +10,7 @@
 #include <glm/gtx/euler_angles.hpp>
 #define M_PI       3.14159265358979323846   // pi
 
-const float kNear = 0.5f;
+const float kNear = 0.2f;
 const float kFar = 600.0f;
 const float kFov = 45.0f;
 
