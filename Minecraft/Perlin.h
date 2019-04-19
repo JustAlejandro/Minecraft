@@ -52,18 +52,18 @@ public:
 		{
 			for (int j = 0; j < width + 1; j++)
 			{
-				/*if (i == 0 || j == 0 || i == height || j == width)
+				if (i == 0 || j == 0 || i == height || j == width)
 				{
 					float x = wPos.x + (float)j / width * fullWidth;
 					float y = wPos.z + (float)i / height * fullHeight;
-					perl.push_back(normalize(vec2(sin(abs(x + 0.5) * 0.8144), cos(abs(y + 0.5) * 0.3456))));
-					perl.push_back(normalize(vec2(1.0, 1.0)));
-				}*/
-				{
+					perl.push_back(normalize(vec2(sin((x + 0.5) * 0.8144), cos((y + 0.5) * 0.3456))));
+					
+				}
+				else {
 					float x = wPos.x + (float)j / width * fullWidth;
 					float y = wPos.z + (float)i / height * fullHeight;
-					perl.push_back(normalize(vec2(sin(abs(x + 0.5) * 0.8144), cos(abs(y + 0.5) * 0.3456))));
-					addto(perl);
+					perl.push_back(normalize(vec2(float(rand()) / RAND_MAX, float(rand()) / RAND_MAX)));
+					//addto(perl);
 				}
 			}
 		}
@@ -71,7 +71,7 @@ public:
 		{
 			for (int j = 0; j < fullWidth; j++)
 			{
-				end.push_back(4.0f * perlin((float)j / (float)(fullHeight) * (float)width, (float)i / (float)(fullWidth) * (float)height));
+				end.push_back(10.0f * perlin((float)j / (float)(fullHeight) * (float)width, (float)i / (float)(fullWidth) * (float)height));
 			}
 		}
 	}

@@ -7,9 +7,9 @@ int reMap(float val, float h, float l, int max, int min) {
 }
 
 // Takes in a 2d map of the chunk to create, as well as it's world position and the max and min values
-Chunk::Chunk(MatrixPointers* mats, vec4* light, vec4 w_pos, int max, int min) : frank(w_pos, 5, 5), half(w_pos, 10, 10), quarter(w_pos, 15,15)
+Chunk::Chunk(MatrixPointers* mats, vec4* light, vec4 w_pos, int max, int min) : frank(w_pos, 5, 5), half(w_pos, 7, 7), quarter(w_pos, 10,10)
 {
-	float big = 1.0f;
+	float big = 1.5f;
 	float small = -1.0f;
 	worldPos = w_pos;
 	width = seed_width;
@@ -57,7 +57,7 @@ void Chunk::getMinMax(std::vector<float> map, int & min, int & max, int& x, int&
 		}
 
 	}
-
+	min = min - 3;
 	max = std::max(max, reMap(map[x * seed_width + y], big, small, maxV, minV));
 }
 
@@ -85,7 +85,7 @@ void Chunk::setupMap() {
 	{
 		for (int j = 0; j < height; j++)
 		{
-			map.push_back(1.0 / 2.0 * frank.end[i * seed_width + j] + 1.0 / 8.0 * half.end[i * seed_width + j] + 1.0 / 14.0 * quarter.end[i * seed_width + j]);
+			map.push_back(1.0 / 4.0 * frank.end[i * seed_width + j] +1.0 / 8.0 * half.end[i * seed_width + j] + 1.0 / 10 * quarter.end[i * seed_width + j]);
 		}
 	}
 }

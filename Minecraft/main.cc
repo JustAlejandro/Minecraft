@@ -69,7 +69,8 @@ int main(int argc, char* argv[])
 	GUI gui(window, window_width, window_height);
 
 	gui.updateMatrices();
-	MatrixPointers* mats = &gui.getMatrixPointers();
+	MatrixPointers MatBig = gui.getMatrixPointers();
+	MatrixPointers* mats = &MatBig;
 
 	//PLAN: render each view one at a time to the same texture, displaying each as we go
 
@@ -104,7 +105,8 @@ int main(int argc, char* argv[])
 		gui.moveDir = vec3(0.0, 0.0, 0.0);
 
 		gui.updateMatrices();
-		mats = &gui.getMatrixPointers();
+		MatBig = gui.getMatrixPointers();
+		mats = &MatBig;
 		chunkSetup(window_width, window_height, FrameBuffer);
 		world.worldUpdate(playerPos, mats, &light);
 		world.toScreen(FrameBuffer, *mats, light, window_width, window_height);
