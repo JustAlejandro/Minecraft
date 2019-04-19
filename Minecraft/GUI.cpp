@@ -60,33 +60,19 @@ void GUI::keyCallback(int key, int scancode, int action, int mods)
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
 		glfwSetWindowShouldClose(window_, GL_TRUE);
 		return;
+	}if (key == GLFW_KEY_F && action == GLFW_PRESS && mods == GLFW_MOD_CONTROL) {
+		god = !god;
+		return;
 	}
-	else if (key == GLFW_KEY_SPACE) {
-		jumping = true;
-	}if (key == GLFW_KEY_W) {
-		if (fps_mode_)
-			eye_ += zoom_speed_ * look_;
-		else
-			camera_distance_ -= zoom_speed_;
+	if (action == GLFW_PRESS)
+	{
+		keys[key] = true;
 	}
-	else if (key == GLFW_KEY_S) {
-		if (fps_mode_)
-			eye_ -= zoom_speed_ * look_;
-		else
-			camera_distance_ += zoom_speed_;
+	if (action == GLFW_RELEASE)
+	{
+		keys[key] = false;
 	}
-	else if (key == GLFW_KEY_A) {
-		if (fps_mode_)
-			eye_ += pan_speed_ * tangent_;
-		else
-			center_ += pan_speed_ * tangent_;
-	}
-	else if (key == GLFW_KEY_D) {
-		if (fps_mode_)
-			eye_ -= pan_speed_ * tangent_;
-		else
-			center_ -= pan_speed_ * tangent_;
-	}
+	
 
 	if (mods == 0 && captureWASDUPDOWN(key, action))
 		return;
@@ -146,6 +132,32 @@ void GUI::mouseScrollCallback(double dx, double dy)
 
 void GUI::updateMatrices()
 {
+	if (keys[GLFW_KEY_SPACE]) {
+		jumping = true;
+	}if (keys[GLFW_KEY_W]) {
+		if (fps_mode_)
+			moveDir += zoom_speed_ * look_;
+		else
+			camera_distance_ -= zoom_speed_;
+	}
+	if (keys[GLFW_KEY_S]) {
+		if (fps_mode_)
+			moveDir -= zoom_speed_ * look_;
+		else
+			camera_distance_ += zoom_speed_;
+	}
+	if (keys[GLFW_KEY_A]) {
+		if (fps_mode_)
+			moveDir += pan_speed_ * tangent_;
+		else
+			center_ += pan_speed_ * tangent_;
+	}
+	if (keys[GLFW_KEY_D]) {
+		if (fps_mode_)
+			moveDir -= pan_speed_ * tangent_;
+		else
+			center_ -= pan_speed_ * tangent_;
+	}
 	// Compute our view, and projection matrices.
 	if (fps_mode_)
 		center_ = eye_ + camera_distance_ * look_;
@@ -173,21 +185,6 @@ MatrixPointers GUI::getMatrixPointers() const
 bool GUI::captureWASDUPDOWN(int key, int action)
 {
 	bool toRet = false;
-	
-	if (key == GLFW_KEY_DOWN) {
-		if (fps_mode_)
-			eye_ -= pan_speed_ * up_;
-		else
-			center_ -= pan_speed_ * up_;
-		toRet = true;
-	}
-	else if (key == GLFW_KEY_UP) {
-		if (fps_mode_)
-			eye_ += pan_speed_ * up_;
-		else
-			center_ += pan_speed_ * up_;
-		toRet = true;
-	}
 	return toRet;
 }
 

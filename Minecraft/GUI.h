@@ -37,13 +37,17 @@ public:
 	const float* getLightPositionPtr() const { return &light_position_[0]; }
 	void readAndSave();
 	glm::vec3 eye_ = glm::vec3(0.0f, 20.1f, camera_distance_);
+	glm::vec3 moveDir = glm::vec3(0.0, 0.0, 0.0);
 	bool jump();
+	bool god = true;
 private:
 	GLFWwindow* window_;
 
 	int window_width_, window_height_;
 	int view_width_, view_height_;
 	int preview_height_;
+	//max key id in glfw
+	bool keys[349];
 
 	bool drag_state_ = false;
 	bool fps_mode_ = true;
@@ -51,9 +55,9 @@ private:
 	int current_button_ = -1;
 	float last_x_ = 0.0f, last_y_ = 0.0f, current_x_ = 0.0f, current_y_ = 0.0f;
 	float camera_distance_ = 1.0f;
-	float pan_speed_ = 0.3f;
-	float rotation_speed_ = 0.04f;
-	float zoom_speed_ = 0.3f;
+	float pan_speed_ = 0.15f;
+	float rotation_speed_ = 0.06f;
+	float zoom_speed_ = 0.15f;
 	float aspect_;
 	float scroll = 0;
 

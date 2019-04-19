@@ -87,6 +87,7 @@ int main(int argc, char* argv[])
 
 	vec4 light = vec4(0.0f, 1000.0f, 0.0f, 1.0f);
 	vec3 playerPos = gui.getCenter();
+	gui.eye_ = vec4(10.0, 30.0, -10.0, 1.0);
 	World world(mats, &light);
 
 	//Setup the quadPassThrough
@@ -98,7 +99,9 @@ int main(int argc, char* argv[])
 		glViewport(0, 0, window_width, window_height);
 		playerPos = gui.getCenter();
 		bool jump = gui.jump();
-		world.checkPlayer(gui.eye_, jump);
+		vec3 mod = world.checkPlayer(gui.eye_, gui.moveDir, jump, gui.god);
+		gui.eye_ = gui.eye_ + gui.moveDir * mod;
+		gui.moveDir = vec3(0.0, 0.0, 0.0);
 
 		gui.updateMatrices();
 		mats = &gui.getMatrixPointers();

@@ -16,10 +16,10 @@ void main()
 	thing = (thing + 1.0)/2.0;
 	thing = (thing + 1.0)/2.0;
 	if(worldCoord.y > 2.0005){
-		color = vec4(0.5,0.5,0.5,1.0);
+		color = vec4(0.6,0.6,0.6,1.0);
 	}
 	if(worldCoord.y > 4.0005){
-		color = vec4(0.1, 0.7, 0.2, 1.0);
+		color = vec4(0.1, 0.8, 0.2, 1.0);
 	}
 	if(worldCoord.y > 10.0005){
 		color = vec4(1.0, 1.0, 1.0, 1.0);
